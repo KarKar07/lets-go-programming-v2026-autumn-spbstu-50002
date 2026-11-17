@@ -10,11 +10,11 @@ import (
 )
 
 const (
-	dirPerm  = 0755
-	filePerm = 0644
+	dirPerm  os.FileMode = 0o755
+	filePerm os.FileMode = 0o644
 )
 
-func SaveJSON(path string, currencies []currency.Currency) error {
+func SaveJSON(path string, currencies []*currency.Currency) error {
 	if err := os.MkdirAll(filepath.Dir(path), dirPerm); err != nil {
 		return fmt.Errorf("create directory: %w", err)
 	}
@@ -30,3 +30,4 @@ func SaveJSON(path string, currencies []currency.Currency) error {
 
 	return nil
 }
+

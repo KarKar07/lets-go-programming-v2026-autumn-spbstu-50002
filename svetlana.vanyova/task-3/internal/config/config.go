@@ -8,6 +8,11 @@ import (
 	"go.yaml.in/yaml/v3"
 )
 
+var (
+    errInputFileRequired  = errors.New("input-file are required")
+    errOutputFileRequired = errors.New("output-file are required")
+)
+
 type Config struct {
 	InputFile  string `yaml:"input-file"`
 	OutputFile string `yaml:"output-file"`
@@ -26,11 +31,11 @@ func Load(path string) (*Config, error) {
 	}
 
 	if cfg.InputFile == "" {
-		return nil, errors.New("input-file are required")
+		return nil, errInputFileRequired
 	}
 
 	if cfg.OutputFile == "" {
-		return nil, errors.New("output-file are required")
+		return nil, errOutputFileRequired
 	}
 
 	return &cfg, nil
