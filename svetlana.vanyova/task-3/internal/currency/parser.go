@@ -1,41 +1,39 @@
+
 package currency
 
 import (
-	"encoding/xml"
 	"fmt"
-	"os"
-
-	"golang.org/x/net/html/charset"
+	"strconv"
+	"strings"
 )
 
-type CurrencyXML struct {
-	NumCode  *int    `xml:"NumCode"`
-	CharCode *string `xml:"CharCode"`
-	Value    *string `xml:"Value"`
+type Currency struct {
+	NumCode  int     `json:"num_code"`
+	CharCode string  `json:"char_code"`
+	Value    float64 `json:"value"`
 }
 
-type CurrencyRatesXML struct {
-	Currencies []*CurrencyXML `xml:"Valute"`
-}
+func ConvertCurrencies(source []*CurrencyXML) ([]*Currency, error) {
+	currencies := make([]*Currency, 0, len(source))
 
-func LoadXML(path string) (*CurrencyRatesXML, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, fmt.Errorf("failed to open XML file: %w", err)
+	for _, item := range source {
+		if item == nil {
+			continue
+		}
+
+		value := strings.ReplaceAll(item.Value, ",", ".")
+
+		parsedValue, err := strconv.ParseFloat(value, 64)
+		if err != nil {
+			return nil, fmt.Errorf("parse currency value %q: %w", value, err)
+		}
+
+		currencies = append(currencies, &Currency{
+			NumCode:  item.NumCode,
+			CharCode: item.CharCode,
+			Value:    parsedValue,
+		})
 	}
 
-	defer func() {
-		_ = file.Close()
-	}()
-
-	decoder := xml.NewDecoder(file)
-	decoder.CharsetReader = charset.NewReaderLabel
-
-	var rates CurrencyRatesXML
-
-	if err := decoder.Decode(&rates); err != nil {
-		return nil, fmt.Errorf("failed to decode XML: %w", err)
-	}
-
-	return &rates, nil
+	return currencies, nil
 }
