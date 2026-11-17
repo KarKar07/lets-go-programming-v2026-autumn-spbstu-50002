@@ -9,27 +9,6 @@ import (
 )
 
 type CurrencyXML struct {
-	NumCode  int    `xml:"NumCode"`
-	CharCode string `xml:"CharCode"`
-	Value    string `xml:"Value"`
-}
-
-type CurrencyRatesXML struct {
-	Currencies []CurrencyXML `xml:"Valute"`
-}
-
-
-package currency
-
-import (
-	"encoding/xml"
-	"fmt"
-	"os"
-
-	"golang.org/x/net/html/charset"
-)
-
-type CurrencyXML struct {
 	NumCode  *int    `xml:"NumCode"`
 	CharCode *string `xml:"CharCode"`
 	Value    *string `xml:"Value"`
