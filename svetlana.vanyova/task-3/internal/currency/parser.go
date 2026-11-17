@@ -16,7 +16,7 @@ type CurrencyXML struct {
 }
 
 type CurrencyRatesXML struct {
-	Currencies []*CurrencyXML `xml:"Valute"`
+	Currencies []CurrencyXML `xml:"Valute"`
 }
 
 func LoadXML(path string) (*CurrencyRatesXML, error) {
