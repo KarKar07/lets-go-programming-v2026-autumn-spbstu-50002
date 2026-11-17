@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
+	"github.com/KarKar07/task-3/internal/currency"
 )
 
 const (
@@ -12,7 +14,7 @@ const (
 	filePerm = 0644
 )
 
-func SaveJSON(path string, currencies []Currency) error {
+func SaveJSON(path string, currencies []currency.Currency) error {
 	if err := os.MkdirAll(filepath.Dir(path), dirPerm); err != nil {
 		return fmt.Errorf("create directory: %w", err)
 	}
