@@ -9,8 +9,8 @@ import (
 )
 
 var (
-    errInputFileRequired  = errors.New("input-file are required")
-    errOutputFileRequired = errors.New("output-file are required")
+	errInputFileRequired  = errors.New("input-file are required")
+	errOutputFileRequired = errors.New("output-file are required")
 )
 
 type Config struct {
